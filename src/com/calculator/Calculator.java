@@ -24,7 +24,7 @@ public class Calculator {
 
 //            System.out.println(tokens);
             Parser parser = new Parser(tokens);
-            Expr expression = parser.parse();
+            Expression expression = parser.parse();
 
             System.out.println(new AstPrinter().print(expression));
         }

@@ -1,36 +1,36 @@
 package com.calculator;
 
-class AstPrinter implements Expr.Visitor<String> {
-    String print(Expr expr) {
+class AstPrinter implements Expression.Visitor<String> {
+    String print(Expression expr) {
         return expr.accept(this);
     }
 
     @Override
-    public String visitBinaryNode(Expr.Binary expr) {
+    public String visitBinaryNode(Expression.Binary expr) {
         return stringify(expr.operator.getLexme().toString(), expr.left, expr.right);
     }
 
     @Override
-    public String visitGroupingNode(Expr.Grouping expr) {
+    public String visitGroupingNode(Expression.Grouping expr) {
         return stringify("p", expr.expression);
     }
 
     @Override
-    public String visitLiteralNode(Expr.Literal expr) {
+    public String visitLiteralNode(Expression.Literal expr) {
         return expr.value.toString();
     }
 
     @Override
-    public String visitUnaryNode(Expr.Unary expr) {
+    public String visitUnaryNode(Expression.Unary expr) {
         return stringify(expr.operator.getLexme().toString(), expr.right);
     }
 
 
-    private String stringify(String name, Expr... exprs) {
+    private String stringify(String name, Expression... exprs) {
         StringBuilder builder = new StringBuilder();
 
         builder.append("(");
-        for (Expr expr : exprs) {
+        for (Expression expr : exprs) {
             builder.append(" ");
             builder.append(expr.accept(this));
         }

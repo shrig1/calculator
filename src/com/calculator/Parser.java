@@ -21,7 +21,7 @@ public class Parser {
         this.tokens = tokens;
     }
 
-    public Expr parse() {
+    public Expression parse() {
         return expression();
     }
 
@@ -30,12 +30,12 @@ public class Parser {
     /**
      * literal :>  NUMBER | '(' expression ')' ;
      */
-    private Expr literal() {
-        if(match(NUMBER)) return new Expr.Literal(previous().getLexme());
+    private Expression literal() {
+        if(match(NUMBER)) return new Expression.Literal(previous().getLexme());
         if(match(LEFT_PAREN)) {
-            Expr expr = expression();
+            Expression expr = expression();
             consume(RIGHT_PAREN, "You need a ')' to follow up with an expression after a '('... smh");
-            return new Expr.Grouping(expr);
+            return new Expression.Grouping(expr);
         }
 
         throw new RuntimeException("Need an expression :(");
@@ -44,11 +44,11 @@ public class Parser {
     /**
      * negate :>  '-' negate | literal ;
      */
-    private Expr negate() {
+    private Expression negate() {
         if(match(MINUS)) {
             Token op = previous();
-            Expr right = negate();
-            return new Expr.Unary(op, right);
+            Expression right = negate();
+            return new Expression.Unary(op, right);
         }
 
         return literal();
@@ -57,13 +57,13 @@ public class Parser {
     /**
      * power :>  negate [ ( '^' ) negate ] ;
      */
-    private Expr power() {
-        Expr expr = negate();
+    private Expression power() {
+        Expression expr = negate();
 
         while(match(EXP)) {
             Token op = previous();
-            Expr right = power();
-            expr = new Expr.Binary(expr, op, right);
+            Expression right = power();
+            expr = new Expression.Binary(expr, op, right);
         }
         return expr;
     }
@@ -71,13 +71,13 @@ public class Parser {
     /**
      * multidivimod :>  power [ ( '*' | '/' | '%' ) power ] ;
      */
-    private Expr multidivimod() {
-        Expr expr = power();
+    private Expression multidivimod() {
+        Expression expr = power();
 
         while(match(STAR, SLASH, MODULO)) {
             Token op = previous();
-            Expr right = power();
-            expr = new Expr.Binary(expr, op, right);
+            Expression right = power();
+            expr = new Expression.Binary(expr, op, right);
         }
         return expr;
     }
@@ -85,13 +85,13 @@ public class Parser {
     /**
      * addsub :>  multidivimod [ ( '+' | '-' ) multidivimod ] ;
      */
-    private Expr addsub() {
-        Expr expr = multidivimod();
+    private Expression addsub() {
+        Expression expr = multidivimod();
 
         while(match(PLUS, MINUS)) {
             Token op = previous();
-            Expr right = multidivimod();
-            expr = new Expr.Binary(expr, op, right);
+            Expression right = multidivimod();
+            expr = new Expression.Binary(expr, op, right);
         }
         return expr;
     }
@@ -99,7 +99,7 @@ public class Parser {
     /**
      * expression :>  addsub ;
      */
-    private Expr expression() {
+    private Expression expression() {
         return addsub();
     }
 

@@ -1,18 +1,18 @@
 package com.calculator;
 
-public abstract class Expr {
+public abstract class Expression {
     interface Visitor<T> {
         T visitBinaryNode(Binary expr);
         T visitGroupingNode(Grouping expr);
         T visitLiteralNode(Literal expr);
         T visitUnaryNode(Unary expr);
     }
-    static class Binary extends Expr {
-        final Expr left;
+    static class Binary extends Expression {
+        final Expression left;
         final Token operator;
-        final Expr right;
+        final Expression right;
 
-        public Binary(Expr left, Token operator, Expr right) {
+        public Binary(Expression left, Token operator, Expression right) {
             this.left = left;
             this.operator = operator;
             this.right = right;
@@ -23,10 +23,10 @@ public abstract class Expr {
             return visitor.visitBinaryNode(this);
         }
     }
-    static class Grouping extends Expr {
-        final Expr expression;
+    static class Grouping extends Expression {
+        final Expression expression;
 
-        public Grouping(Expr expression) {
+        public Grouping(Expression expression) {
             this.expression = expression;
         }
 
@@ -35,7 +35,7 @@ public abstract class Expr {
             return visitor.visitGroupingNode(this);
         }
     }
-    static class Literal extends Expr {
+    static class Literal extends Expression {
         final Object value;
 
         public Literal(Object value) {
@@ -47,11 +47,11 @@ public abstract class Expr {
             return visitor.visitLiteralNode(this);
         }
     }
-    static class Unary extends Expr {
+    static class Unary extends Expression {
         final Token operator;
-        final Expr right;
+        final Expression right;
 
-        public Unary(Token operator, Expr right) {
+        public Unary(Token operator, Expression right) {
             this.operator = operator;
             this.right = right;
         }
