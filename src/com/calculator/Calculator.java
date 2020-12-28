@@ -22,7 +22,11 @@ public class Calculator {
             Lexer lexer = new Lexer(line);
             ArrayList<Token> tokens = lexer.scanTokens();
 
-            System.out.println(tokens);
+//            System.out.println(tokens);
+            Parser parser = new Parser(tokens);
+            Expr expression = parser.parse();
+
+            System.out.println(new AstPrinter().print(expression));
         }
     }
 }

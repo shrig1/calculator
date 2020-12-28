@@ -20,7 +20,7 @@ public class Lexer {
             start = current;
             scanToken();
         }
-
+        tokens.add(new Token(EOL, null));
         return tokens;
 
     }
@@ -35,19 +35,20 @@ public class Lexer {
             case '+': addToken(PLUS); break;
             case '*': addToken(STAR); break;
             case '/': addToken(SLASH); break;
+            case '^': addToken(EXP); break;
             case '%': addToken(MODULO); break;
-            case '!':
-                if(matchNext('=')) {
-                    addToken(BANG_EQUAL);
-                }
-                break;
-            case '=':
-                if(matchNext('=')) {
-                    addToken(EQUAL_EQUAL);
-                }
-                break;
-            case '<': addToken(matchNext('=') ? LESS_EQUAL : LESS); break;
-            case '>': addToken(matchNext('=') ? GREATER_EQUAL : GREATER); break;
+//            case '!':
+//                if(matchNext('=')) {
+//                    addToken(BANG_EQUAL);
+//                }
+//                break;
+//            case '=':
+//                if(matchNext('=')) {
+//                    addToken(EQUAL_EQUAL);
+//                }
+//                break;
+//            case '<': addToken(matchNext('=') ? LESS_EQUAL : LESS); break;
+//            case '>': addToken(matchNext('=') ? GREATER_EQUAL : GREATER); break;
             case ' ':
             case '\r':
             case '\t': break;

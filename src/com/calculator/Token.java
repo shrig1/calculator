@@ -2,15 +2,16 @@ package com.calculator;
 
 public class Token {
     private final TokenType type;
-    private final Object lexme;
+    private final Object lexeme;
+//    public String lexeme;
 
-    public Token(TokenType type, Object lexme){
+    public Token(TokenType type, Object lexeme){
         this.type = type;
-        this.lexme = lexme;
+        this.lexeme = lexeme;
     }
 
     public TokenType getType(){ return type;}
-    public Object getLexme(){ return lexme;}
+    public Object getLexme(){ return lexeme;}
 
-    public String toString() { return type + " " + lexme; }
+    public String toString() { return type + " " + lexeme; }
 }
