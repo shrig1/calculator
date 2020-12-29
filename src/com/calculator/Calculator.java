@@ -11,8 +11,8 @@ public class Calculator {
     }
 
     private static void runREPL() throws IOException {
+        BufferedReader reader = new BufferedReader( new InputStreamReader(System.in));
         while(true) {
-            BufferedReader reader = new BufferedReader( new InputStreamReader(System.in));
             System.out.print("> ");
             String line = reader.readLine();
             if(line.isEmpty()) {
@@ -24,9 +24,12 @@ public class Calculator {
 
 //            System.out.println(tokens);
             Parser parser = new Parser(tokens);
-            Expression expression = parser.parse();
-
-            System.out.println(new AstPrinter().print(expression));
+            try{
+                Expression expression = parser.parse();
+                System.out.println(new AstPrinter().print(expression));
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 }

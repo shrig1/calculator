@@ -25,9 +25,11 @@ public abstract class Expression {
     }
     static class Grouping extends Expression {
         final Expression expression;
+        final String type;
 
-        public Grouping(Expression expression) {
+        public Grouping(Expression expression, String type) {
             this.expression = expression;
+            this.type = type;
         }
 
         @Override

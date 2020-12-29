@@ -12,7 +12,14 @@ class AstPrinter implements Expression.Visitor<String> {
 
     @Override
     public String visitGroupingNode(Expression.Grouping expr) {
-        return stringify("p", expr.expression);
+        if(expr.type.equals("group")) {
+            return stringify("group", expr.expression);
+        } else if(expr.type.equals("abs")) {
+            return stringify("abs", expr.expression);
+        }
+        else {
+            return stringify("", expr.expression);
+        }
     }
 
     @Override

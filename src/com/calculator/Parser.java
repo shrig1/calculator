@@ -16,6 +16,7 @@ import static com.calculator.TokenType.*;
 public class Parser {
     private final ArrayList<Token> tokens;
     private int current = 0;
+    private String error = "";
 
     public Parser(ArrayList<Token> tokens) {
         this.tokens = tokens;
@@ -31,23 +32,45 @@ public class Parser {
      * literal :>  NUMBER | '(' expression ')' ;
      */
     private Expression literal() {
+        String error = "";
         if(match(NUMBER)) return new Expression.Literal(previous().getLexme());
         if(match(LEFT_PAREN)) {
+            try {
+                Expression expr = expression();
+                consume(RIGHT_PAREN);
+                return new Expression.Grouping(expr, "grouping");
+            } catch(RuntimeException e) {
+                this.error = "Incorrect use of parenthesis";
+//                System.err.println("Incorrect use of parenthesis");
+                throw new RuntimeException(String.format("Not a valid expression {%s} :(", this.error));
+            }
+        }
+        if(match(ABS_BRACK)) {
             Expression expr = expression();
-            consume(RIGHT_PAREN, "You need a ')' to follow up with an expression after a '('... smh");
-            return new Expression.Grouping(expr);
+            try {
+                consume(ABS_BRACK);
+                return new Expression.Grouping(expr, "abs");
+            } catch(RuntimeException e) {
+//                System.err.println("Incorrect use of absolute value");
+                this.error = "Incorrect use of absolute value";
+                throw new RuntimeException(String.format("Not a valid expression {%s} :(", this.error));
+            }
+        }
+        if(match(RIGHT_PAREN)) {
+            this.error = "Incorrect use of parenthesis";
+            throw new RuntimeException(String.format("Not a valid expression {%s} :(", this.error));
         }
 
-        throw new RuntimeException("Need an expression :(");
+        throw new RuntimeException(String.format("Not a valid expression {%s} :(", this.error));
     }
 
     /**
-     * negate :>  '-' negate | literal ;
+     * negate :>  '-' negate | power ;
      */
     private Expression negate() {
         if(match(MINUS)) {
             Token op = previous();
-            Expression right = negate();
+            Expression right = literal();
             return new Expression.Unary(op, right);
         }
 
@@ -67,6 +90,7 @@ public class Parser {
         }
         return expr;
     }
+
 
     /**
      * multidivimod :>  power [ ( '*' | '/' | '%' ) power ] ;
@@ -115,12 +139,12 @@ public class Parser {
         return false;
     }
 
-    private Token consume(TokenType type, String message) {
+    private Token consume(TokenType type) {
         if (checkType(type)) return advance();
 
 
 //        System.err.println(message);
-        throw new RuntimeException(message);
+        throw new RuntimeException();
     }
 
     private boolean checkType(TokenType type) {
