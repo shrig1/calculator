@@ -1,5 +1,7 @@
 package com.calculator;
 
+import com.calculator.utils.Error;
+
 import java.util.ArrayList;
 
 import static com.calculator.TokenType.*;
@@ -42,7 +44,7 @@ public class Parser {
             } catch(RuntimeException e) {
                 this.error = "Incorrect use of parenthesis";
 //                System.err.println("Incorrect use of parenthesis");
-                throw new RuntimeException(String.format("Not a valid expression {%s} :(", this.error));
+                throw new Error(String.format("Not a valid expression {%s} :(", this.error));
             }
         }
         if(match(ABS_BRACK)) {
@@ -53,16 +55,14 @@ public class Parser {
             } catch(RuntimeException e) {
 //                System.err.println("Incorrect use of absolute value");
                 this.error = "Incorrect use of absolute value";
-                throw new RuntimeException(String.format("Not a valid expression {%s} :(", this.error));
+                throw new Error(String.format("Not a valid expression {%s} :(", this.error));
             }
         }
         if(match(RIGHT_PAREN)) {
             this.error = "Incorrect use of parenthesis";
-            throw new RuntimeException(String.format("Not a valid expression {%s} :(", this.error));
-        }
+            throw new Error(String.format("Not a valid expression {%s} :(", this.error));        }
 
-        throw new RuntimeException(String.format("Not a valid expression {%s} :(", this.error));
-    }
+        throw new Error(String.format("Not a valid expression {%s} :(", this.error));    }
 
     /**
      * negate :>  '-' negate | power ;
@@ -144,7 +144,7 @@ public class Parser {
 
 
 //        System.err.println(message);
-        throw new RuntimeException();
+        throw new Error(String.format("Missing Token %s :(", this.error));
     }
 
     private boolean checkType(TokenType type) {

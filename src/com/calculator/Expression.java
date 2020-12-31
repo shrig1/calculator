@@ -43,6 +43,9 @@ public abstract class Expression {
         public Literal(Object value) {
             this.value = value;
         }
+        public String getValue() {
+            return this.value.toString();
+        }
 
         @Override
         <T> T accept(Visitor<T> visitor) {
@@ -57,6 +60,15 @@ public abstract class Expression {
             this.operator = operator;
             this.right = right;
         }
+
+        public Token getOperator() {
+            return operator;
+        }
+
+        public Expression getRight() {
+            return right;
+        }
+
 
         @Override
         <T> T accept(Visitor<T> visitor) {
