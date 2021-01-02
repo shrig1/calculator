@@ -12,7 +12,7 @@ class AstPrinter implements Expression.Visitor<String> {
 
     @Override
     public String visitGroupingNode(Expression.Grouping expr) {
-        if(expr.type.equals("group")) {
+        if(expr.type.equals("grouping")) {
             return stringify("group", expr.expression);
         } else if(expr.type.equals("abs")) {
             return stringify("abs", expr.expression);
@@ -29,7 +29,7 @@ class AstPrinter implements Expression.Visitor<String> {
 
     @Override
     public String visitUnaryNode(Expression.Unary expr) {
-        return stringify(expr.operator.getLexme().toString(), expr.right);
+        return stringify(expr.getOperator().getLexme().toString(), expr.getSideExpr());
     }
 
 

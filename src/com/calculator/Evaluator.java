@@ -1,5 +1,7 @@
 package com.calculator;
 
+import com.calculator.utils.MathOps;
+
 import static com.calculator.utils.CheckForCalculationErrors.*;
 
 public class Evaluator implements Expression.Visitor<Double> {
@@ -23,14 +25,15 @@ public class Evaluator implements Expression.Visitor<Double> {
 
     @Override
     public Double visitUnaryNode(Expression.Unary expr) {
-        double right = evaluate(expr.getRight());
+        double sideExpr = evaluate(expr.getSideExpr());
 
-        switch(expr.getOperator().getType()) {
-            case MINUS:
-                return -1.0 * right;
-        }
+        return switch (expr.getOperator().getType()) {
+            case MINUS -> -1.0 * sideExpr;
+            case FACTORIAL -> MathOps.factorial(String.valueOf(sideExpr));
+            default -> 0.0;
+        };
 
-        return 0.0;
+
     }
 
 

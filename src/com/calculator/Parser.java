@@ -60,21 +60,36 @@ public class Parser {
         }
         if(match(RIGHT_PAREN)) {
             this.error = "Incorrect use of parenthesis";
-            throw new Error(String.format("Not a valid expression {%s} :(", this.error));        }
+            throw new Error(String.format("Not a valid expression {%s} :(", this.error));
+        }
 
-        throw new Error(String.format("Not a valid expression {%s} :(", this.error));    }
+        throw new Error(String.format("Not a valid expression {%s} :(", this.error));
+    }
+
+    /*
+    * factorial :>  literal '!' | literal ;
+    */
+    private Expression factorial() {
+        Expression left = literal();
+        if(match(FACTORIAL)) {
+            Token fac = previous();
+            return new Expression.Unary(fac, left);
+        }
+
+        return left;
+    }
 
     /**
-     * negate :>  '-' negate | power ;
+     * negate :>  '-' negate | factorial ;
      */
     private Expression negate() {
         if(match(MINUS)) {
-            Token op = previous();
-            Expression right = literal();
-            return new Expression.Unary(op, right);
+            Token minus = previous();
+            Expression right = factorial();
+            return new Expression.Unary(minus, right);
         }
 
-        return literal();
+        return factorial();
     }
 
     /**

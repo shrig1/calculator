@@ -3,7 +3,9 @@ package com.calculator.utils;
 import com.calculator.Token;
 
 public class CheckForCalculationErrors {
-    public static void checkNumberOperand(Token operator, Object operand) { //Pretty sure these two methods are not needed but I have them anyways
+    /* Pretty sure these two methods are not needed but I have them anyways in case I do wacky stuff
+
+    public static void checkNumberOperand(Token operator, Object operand) {
         if (operand instanceof Double) return;
         throw new Error("Operand must be a number.");
     }
@@ -14,6 +16,8 @@ public class CheckForCalculationErrors {
 
         throw new Error("Operands must be numbers.");
     }
+    */
+
 
     public static void checkArithmeticErrors(Token operator, double left, double right) {
         switch(operator.getType()){

@@ -37,6 +37,7 @@ public class Lexer {
             case '/': addToken(SLASH); break;
             case '^': addToken(EXP); break;
             case '%': addToken(MODULO); break;
+            case '!': addToken(FACTORIAL); break;
 //            case '!':
 //                if(matchNext('=')) {
 //                    addToken(BANG_EQUAL);
@@ -56,7 +57,7 @@ public class Lexer {
                 if (isDigit(c)) {
                     number();
                 } else {
-                    System.err.println(String.format("Error, char %s is not allowed >:(", c));
+                    System.err.printf("Error, char %s is not allowed >:(%n", c);
                 }
                 break;
         }

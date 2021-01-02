@@ -54,19 +54,19 @@ public abstract class Expression {
     }
     static class Unary extends Expression {
         final Token operator;
-        final Expression right;
+        final Expression sideExpr;
 
-        public Unary(Token operator, Expression right) {
+        public Unary(Token operator, Expression sideExpr) {
             this.operator = operator;
-            this.right = right;
+            this.sideExpr = sideExpr;
         }
 
         public Token getOperator() {
-            return operator;
+            return this.operator;
         }
 
-        public Expression getRight() {
-            return right;
+        public Expression getSideExpr() {
+            return this.sideExpr;
         }
 
 
