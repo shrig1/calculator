@@ -26,7 +26,7 @@ public class Calculator {
             Parser parser = new Parser(tokens);
             try{
                 Expression expression = parser.parse();
-//                System.out.println(new AstPrinter().print(expression));
+                System.out.println(new AstPrinter().print(expression));
                 Evaluator solver = new Evaluator();
                 solver.solve(expression);
             } catch (RuntimeException e) {

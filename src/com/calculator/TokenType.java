@@ -15,5 +15,8 @@ public enum TokenType {
     NUMBER,
 
     // Misc.
-    EOL
+    EOL,
+
+    //Functions
+    SIN, SINH,  COS, COSH, TAN, TANH, CSC, CSCH, SEC, SECH, COT, COTH, ARCSIN, ARCCOS, ARCTAN, ARCCSC, ARCSEC, ARCCOT
 }

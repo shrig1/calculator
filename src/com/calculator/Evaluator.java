@@ -19,8 +19,34 @@ public class Evaluator implements Expression.Visitor<Double> {
     }
 
     @Override
-    public Double visitLiteralNode(Expression.Literal expr) {
-        return Double.parseDouble(expr.getValue());
+    public Double visitLiteralNode(Expression.Literal expr) { return Double.parseDouble(expr.getValue()); }
+
+    @Override
+    public Double visitFunctionNode(Expression.Function expr) {
+        double arg = evaluate(expr.getArgument());
+
+        return switch (expr.getFunction().getType()) {
+            case SIN -> Math.sin(arg);
+            case SINH -> Math.sinh(arg);
+            case COS -> Math.cos(arg);
+            case COSH -> Math.cosh(arg);
+            case TAN -> Math.tan(arg);
+            case TANH -> Math.tanh(arg);
+            case ARCSIN -> Math.asin(arg);
+            case ARCCOS -> Math.acos(arg);
+            case ARCTAN -> Math.atan(arg);
+            case CSC -> 1 / Math.sin(arg);
+            case CSCH -> 1 / Math.sinh(arg);
+            case SEC -> 1 / Math.cos(arg);
+            case SECH -> 1 / Math.cosh(arg);
+            case COT -> 1 / Math.tan(arg);
+            case COTH -> 1 / Math.tanh(arg);
+//            case ARCCSC -> ;
+//            case ARCSEC -> ;
+//            case ARCCOT -> ;
+            default -> throw new Error("Failure in a Function Node, chances are it's because you used the inverses of csc, sec, and cot and they aren't implemented yet");
+        };
+
     }
 
     @Override
@@ -30,7 +56,7 @@ public class Evaluator implements Expression.Visitor<Double> {
         return switch (expr.getOperator().getType()) {
             case MINUS -> -1.0 * sideExpr;
             case FACTORIAL -> MathOps.factorial(String.valueOf(sideExpr));
-            default -> 0.0;
+            default -> throw new Error("Failure in a Unary Node");
         };
 
 
@@ -39,30 +65,30 @@ public class Evaluator implements Expression.Visitor<Double> {
 
     @Override
     public Double visitGroupingNode(Expression.Grouping expr) {
-        if(expr.type.equals("grouping")) {
-            return evaluate(expr.expression);
+        if(expr.getType().equals("grouping")) {
+            return evaluate(expr.getExpression());
         }
-        else if(expr.type.equals("abs")) {
-            return Math.abs(evaluate(expr.expression));
+        else if(expr.getType().equals("abs")) {
+            return Math.abs(evaluate(expr.getExpression()));
         }
 
         //Unreachable
-        return -69.0;
+        throw new Error("Failure in a Grouping Node");
     }
 
 
     @Override
     public Double visitBinaryNode(Expression.Binary expr) {
-        double left = evaluate(expr.left);
-        double right = evaluate(expr.right);
+        double left = evaluate(expr.getLeft());
+        double right = evaluate(expr.getRight());
 
-        switch (expr.operator.getType()) {
+        switch (expr.getOperator().getType()) {
             case MINUS:
                 return left - right;
             case PLUS:
                 return left + right;
             case SLASH:
-                checkArithmeticErrors(expr.operator, left, right);
+                checkArithmeticErrors(expr.getOperator(), left, right);
                 return left / right;
             case STAR:
                 return left * right;
@@ -72,6 +98,6 @@ public class Evaluator implements Expression.Visitor<Double> {
                 return left % right;
         }
         // Unreachable.
-        return -69.0;
+        throw new Error("Failure in a Binary Node");
     }
 }

@@ -67,10 +67,25 @@ public class Parser {
     }
 
     /*
-    * factorial :>  literal '!' | literal ;
+    * function :> func_name '(' expression ')' | literal ;
+    * func_name is all the functions valid, I can't be bothered to write all of them down
+    */
+    private Expression function() {
+        if(match(SIN, SINH,  COS, COSH, TAN, TANH, CSC, CSCH, SEC, SECH, COT, COTH, ARCSIN, ARCCOS, ARCTAN, ARCCSC, ARCSEC, ARCCOT)) {
+            Token function = previous();
+            consume(LEFT_PAREN);
+            Expression arg = expression();
+            consume(RIGHT_PAREN);
+            return new Expression.Function(function, arg);
+        }
+        return literal();
+    }
+
+    /*
+    * factorial :>  function '!' | function ;
     */
     private Expression factorial() {
-        Expression left = literal();
+        Expression left = function();
         if(match(FACTORIAL)) {
             Token fac = previous();
             return new Expression.Unary(fac, left);
@@ -159,7 +174,7 @@ public class Parser {
 
 
 //        System.err.println(message);
-        throw new Error(String.format("Missing Token %s :(", this.error));
+        throw new Error(String.format("Missing Token %s :(", type.toString()));
     }
 
     private boolean checkType(TokenType type) {

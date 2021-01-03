@@ -1,6 +1,8 @@
 package com.calculator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.calculator.TokenType.*;
 
@@ -9,9 +11,29 @@ public class Lexer {
     private final ArrayList<Token> tokens = new ArrayList();
     private int start = 0;
     private int current = 0;
+    private final Map<String, TokenType> functions;
 
     public Lexer(String line) {
         this.line = line;
+        functions = new HashMap<>();
+        functions.put("sin", SIN);
+        functions.put("sinh", SINH);
+        functions.put("cos", COS);
+        functions.put("cosh", COSH);
+        functions.put("tan", TAN);
+        functions.put("tanh", TANH);
+        functions.put("csc", CSC);
+        functions.put("csch", CSCH);
+        functions.put("sec", SEC);
+        functions.put("sech", SECH);
+        functions.put("cot", COT);
+        functions.put("coth", COTH);
+        functions.put("arcsin", ARCSIN);
+        functions.put("arccos", ARCCOS);
+        functions.put("arctan", ARCTAN);
+        functions.put("arccsc", ARCCSC);
+        functions.put("arcsec", ARCSEC);
+        functions.put("arccot", ARCCOT);
     }
 
     public ArrayList<Token> scanTokens() {
@@ -56,12 +78,17 @@ public class Lexer {
             default:
                 if (isDigit(c)) {
                     number();
+                } else if(isLetter(c)) {
+                    functions();
                 } else {
                     System.err.printf("Error, char %s is not allowed >:(%n", c);
                 }
                 break;
         }
     }
+
+
+
 
     //helper methods
     private boolean isAtEnd() {
@@ -78,9 +105,7 @@ public class Lexer {
         return line.charAt(current + d);
     }
 
-    private void addToken(TokenType type, Object lexme) {
-        tokens.add(new Token(type, lexme));
-    }
+    private void addToken(TokenType type, Object lexeme) { tokens.add(new Token(type, lexeme)); }
 
     private void addToken(TokenType type) {
         String text = line.substring(start, current);
@@ -100,6 +125,8 @@ public class Lexer {
         return c >= '0' && c <= '9';
     }
 
+    private boolean isLetter(char c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_'; }
+
     private void number() {
         while (isDigit(peek(0))) advance();
 
@@ -112,6 +139,15 @@ public class Lexer {
         }
 
         addToken(NUMBER, Double.parseDouble(line.substring(start, current)));
+    }
+
+    private void functions() {
+        while(isLetter(peek(0))) advance();
+
+        String text = line.substring(start, current);
+        TokenType type = functions.get(text);
+        if(type == null) throw new Error(String.format("Invalid text '%s' smh", text));
+        addToken(type);
     }
 
 

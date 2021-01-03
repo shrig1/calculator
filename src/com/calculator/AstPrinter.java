@@ -7,18 +7,18 @@ class AstPrinter implements Expression.Visitor<String> {
 
     @Override
     public String visitBinaryNode(Expression.Binary expr) {
-        return stringify(expr.operator.getLexme().toString(), expr.left, expr.right);
+        return stringify(expr.getOperator().getLexme().toString(), expr.getLeft(), expr.getRight());
     }
 
     @Override
     public String visitGroupingNode(Expression.Grouping expr) {
-        if(expr.type.equals("grouping")) {
-            return stringify("group", expr.expression);
-        } else if(expr.type.equals("abs")) {
-            return stringify("abs", expr.expression);
+        if(expr.getType().equals("grouping")) {
+            return stringify("group", expr.getExpression());
+        } else if(expr.getType().equals("abs")) {
+            return stringify("abs", expr.getExpression());
         }
         else {
-            return stringify("", expr.expression);
+            return stringify("", expr.getExpression());
         }
     }
 
@@ -30,6 +30,11 @@ class AstPrinter implements Expression.Visitor<String> {
     @Override
     public String visitUnaryNode(Expression.Unary expr) {
         return stringify(expr.getOperator().getLexme().toString(), expr.getSideExpr());
+    }
+
+    @Override
+    public String visitFunctionNode(Expression.Function expr) {
+        return stringify(expr.getFunction().getType().toString(), expr.getArgument());
     }
 
 
