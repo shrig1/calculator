@@ -71,7 +71,10 @@ public class Parser {
     * func_name is all the functions valid, I can't be bothered to write all of them down
     */
     private Expression function() {
-        if(match(SIN, SINH,  COS, COSH, TAN, TANH, CSC, CSCH, SEC, SECH, COT, COTH, ARCSIN, ARCCOS, ARCTAN, ARCCSC, ARCSEC, ARCCOT)) {
+        if(match(SIN, SINH, COS, COSH, TAN, TANH, CSC, CSCH, SEC, SECH,
+                COT, COTH, ARCSIN, ARCSINH, ARCCOS, ARCCOSH, ARCTAN, ARCTANH,
+                ARCCSC, ARCCSCH, ARCSEC, ARCSECH, ARCCOT, ARCCOTH, VER,
+                VCS, CVS, CVC, SEM, HVC, HCV, HCC, EXS, EXC, CRD)) {
             Token function = previous();
             consume(LEFT_PAREN);
             Expression arg = expression();

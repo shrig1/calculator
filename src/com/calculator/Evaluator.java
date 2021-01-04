@@ -2,6 +2,8 @@ package com.calculator;
 
 import com.calculator.utils.MathOps;
 
+import java.util.function.Function;
+
 import static com.calculator.utils.CheckForCalculationErrors.*;
 
 public class Evaluator implements Expression.Visitor<Double> {
@@ -10,7 +12,7 @@ public class Evaluator implements Expression.Visitor<Double> {
         try{
             System.out.println(evaluate(expr));
         } catch(Error e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -24,29 +26,9 @@ public class Evaluator implements Expression.Visitor<Double> {
     @Override
     public Double visitFunctionNode(Expression.Function expr) {
         double arg = evaluate(expr.getArgument());
-
-        return switch (expr.getFunction().getType()) {
-            case SIN -> Math.sin(arg);
-            case SINH -> Math.sinh(arg);
-            case COS -> Math.cos(arg);
-            case COSH -> Math.cosh(arg);
-            case TAN -> Math.tan(arg);
-            case TANH -> Math.tanh(arg);
-            case ARCSIN -> Math.asin(arg);
-            case ARCCOS -> Math.acos(arg);
-            case ARCTAN -> Math.atan(arg);
-            case CSC -> 1 / Math.sin(arg);
-            case CSCH -> 1 / Math.sinh(arg);
-            case SEC -> 1 / Math.cos(arg);
-            case SECH -> 1 / Math.cosh(arg);
-            case COT -> 1 / Math.tan(arg);
-            case COTH -> 1 / Math.tanh(arg);
-//            case ARCCSC -> ;
-//            case ARCSEC -> ;
-//            case ARCCOT -> ;
-            default -> throw new Error("Failure in a Function Node, chances are it's because you used the inverses of csc, sec, and cot and they aren't implemented yet");
-        };
-
+        Function<Double, Double> result = MathOps.functions.get(expr.getFunction().getType());
+        if(result == null) throw new Error("Failure in a Function Node, probably because you used a function that isn't implemented yet");
+        return result.apply(arg);
     }
 
     @Override

@@ -34,6 +34,17 @@ public class Lexer {
         functions.put("arccsc", ARCCSC);
         functions.put("arcsec", ARCSEC);
         functions.put("arccot", ARCCOT);
+        functions.put("ver", VER);
+        functions.put("vcs", VCS);
+        functions.put("cvs", CVS);
+        functions.put("cvc", CVC);
+        functions.put("sem", SEM);
+        functions.put("hvc", HVC);
+        functions.put("hcv", HCV);
+        functions.put("hcc", HCC);
+        functions.put("exs", EXS);
+        functions.put("exc", EXC);
+        functions.put("crd", CRD);
     }
 
     public ArrayList<Token> scanTokens() {

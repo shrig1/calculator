@@ -18,18 +18,19 @@ public class Calculator {
             if(line.isEmpty()) {
                 break;
             }
-//            System.out.println(line);
-            Lexer lexer = new Lexer(line);
-            ArrayList<Token> tokens = lexer.scanTokens();
+
+            try{
+                //            System.out.println(line);
+                Lexer lexer = new Lexer(line);
+                ArrayList<Token> tokens = lexer.scanTokens();
 
 //            System.out.println(tokens);
-            Parser parser = new Parser(tokens);
-            try{
+                Parser parser = new Parser(tokens);
                 Expression expression = parser.parse();
-                System.out.println(new AstPrinter().print(expression));
+//                System.out.println(new AstPrinter().print(expression));
                 Evaluator solver = new Evaluator();
                 solver.solve(expression);
-            } catch (RuntimeException e) {
+            } catch (Error e) {
                 System.out.println(e.getMessage());
             }
 
