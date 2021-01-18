@@ -1,8 +1,10 @@
 package com.calculator;
 
 import com.calculator.utils.Error;
+import com.calculator.utils.MathOps;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.calculator.TokenType.*;
 
@@ -36,6 +38,9 @@ public class Parser {
     private Expression literal() {
         String error = "";
         if(match(NUMBER)) return new Expression.Literal(previous().getLexme());
+        if(match(PI)) return new Expression.Literal(Math.PI);
+        if(match(E)) return new Expression.Literal(Math.E);
+        if(match(PHI)) return new Expression.Literal(MathOps.PHI);
         if(match(LEFT_PAREN)) {
             try {
                 Expression expr = expression();
@@ -71,17 +76,29 @@ public class Parser {
     * func_name is all the functions valid, I can't be bothered to write all of them down
     */
     private Expression function() {
-        if(match(SIN, SINH, COS, COSH, TAN, TANH, CSC, CSCH, SEC, SECH,
-                COT, COTH, ARCSIN, ARCSINH, ARCCOS, ARCCOSH, ARCTAN, ARCTANH,
-                ARCCSC, ARCCSCH, ARCSEC, ARCSECH, ARCCOT, ARCCOTH, VER,
-                VCS, CVS, CVC, SEM, HVC, HCV, HCC, EXS, EXC, CRD)) {
+        ArrayList<TokenType> spFuncs = new ArrayList<>(List.of(SQRT, LN, SIN, SINH, COS, COSH, TAN, TANH, CSC, CSCH, SEC, SECH, COT, COTH, ARCSIN, ARCSINH, ARCCOS, ARCCOSH, ARCTAN, ARCTANH,
+                ARCCSC, ARCCSCH, ARCSEC, ARCSECH, ARCCOT, ARCCOTH, VER, VCS, CVS, CVC, SEM, HVC, HCV, HCC, EXS, EXC, CRD));
+        ArrayList<TokenType> mpFuncs = new ArrayList<>(List.of(ROOT, LOG));
+        if(match(spFuncs)) {
             Token function = previous();
             consume(LEFT_PAREN);
             Expression arg = expression();
             consume(RIGHT_PAREN);
             return new Expression.Function(function, arg);
         }
+        else if(match(mpFuncs)){
+            Token function = previous();
+            consume(LEFT_PAREN);
+            ArrayList<Expression> args = new ArrayList<>();
+            args.add(expression());
+            while(match(COMMA)){
+                args.add(expression());
+            }
+            consume(RIGHT_PAREN);
+            return new Expression.Function(function, args);
+        }
         return literal();
+
     }
 
     /*
@@ -162,6 +179,17 @@ public class Parser {
 
 
     private boolean match(TokenType... types) {
+        for (TokenType type : types) {
+            if (checkType(type)) {
+                advance();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean match(ArrayList<TokenType> types) {
         for (TokenType type : types) {
             if (checkType(type)) {
                 advance();

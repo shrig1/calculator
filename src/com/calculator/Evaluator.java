@@ -2,6 +2,7 @@ package com.calculator;
 
 import com.calculator.utils.MathOps;
 
+import java.util.ArrayList;
 import java.util.function.Function;
 
 import static com.calculator.utils.CheckForCalculationErrors.*;
@@ -25,10 +26,22 @@ public class Evaluator implements Expression.Visitor<Double> {
 
     @Override
     public Double visitFunctionNode(Expression.Function expr) {
-        double arg = evaluate(expr.getArgument());
-        Function<Double, Double> result = MathOps.functions.get(expr.getFunction().getType());
-        if(result == null) throw new Error("Failure in a Function Node, probably because you used a function that isn't implemented yet");
-        return result.apply(arg);
+        if(expr.getState()) {
+            double arg = evaluate(expr.getArgument());
+            Function<Double, Double> result = MathOps.singleParamFunctions.get(expr.getFunction().getType());
+            if(result == null) throw new Error("Failure in a Function Node, probably because you used a function that isn't implemented yet");
+            return result.apply(arg);
+        }
+        else {
+            ArrayList<Double> args = new ArrayList<>();
+            for(Expression arg : expr.getArguments()){
+                args.add(evaluate(arg));
+            }
+
+            Function<ArrayList<Double>, Double> result = MathOps.multiParamFunctions.get(expr.getFunction().getType());
+            if(result == null) throw new Error("Failure in a Function Node, probably because you used a function that isn't implemented yet");
+            return result.apply(args);
+        }
     }
 
     @Override

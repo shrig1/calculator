@@ -1,5 +1,7 @@
 package com.calculator;
 
+import java.util.ArrayList;
+
 public abstract class Expression {
     interface Visitor<T> {
         T visitBinaryNode(Binary expr);
@@ -71,15 +73,26 @@ public abstract class Expression {
 
     static class Function extends Expression {
         final Token function;
-        final Expression argument;
+        private Expression argument;
+        private ArrayList<Expression> arguments;
+        boolean argOrArgs; // true = arg, false = args
 
         public Function(Token function, Expression argument) {
             this.function = function;
             this.argument = argument;
+            argOrArgs = true;
         }
 
+        public Function(Token function, ArrayList<Expression> argument) {
+            this.function = function;
+            this.arguments = argument;
+            argOrArgs = false;
+        }
+
+        public boolean getState() { return argOrArgs; }
         public Token getFunction() { return this.function;}
         public Expression getArgument() {return this.argument;}
+        public ArrayList<Expression> getArguments() {return this.arguments;}
 
         @Override
         <T> T accept(Visitor<T> visitor) { return visitor.visitFunctionNode(this); }

@@ -8,7 +8,7 @@ import static com.calculator.TokenType.*;
 
 public class Lexer {
     private final String line;
-    private final ArrayList<Token> tokens = new ArrayList();
+    private final ArrayList<Token> tokens = new ArrayList<>();
     private int start = 0;
     private int current = 0;
     private final Map<String, TokenType> functions;
@@ -16,6 +16,10 @@ public class Lexer {
     public Lexer(String line) {
         this.line = line;
         functions = new HashMap<>();
+        functions.put("sqrt", SQRT);
+        functions.put("root", ROOT);
+        functions.put("log", LOG);
+        functions.put("ln", LN);
         functions.put("sin", SIN);
         functions.put("sinh", SINH);
         functions.put("cos", COS);
@@ -45,6 +49,9 @@ public class Lexer {
         functions.put("exs", EXS);
         functions.put("exc", EXC);
         functions.put("crd", CRD);
+        functions.put("pi", PI);
+        functions.put("phi", PHI);
+        functions.put("e", E);
     }
 
     public ArrayList<Token> scanTokens() {
@@ -83,6 +90,7 @@ public class Lexer {
 //                break;
 //            case '<': addToken(matchNext('=') ? LESS_EQUAL : LESS); break;
 //            case '>': addToken(matchNext('=') ? GREATER_EQUAL : GREATER); break;
+            case ',': addToken(COMMA); break;
             case ' ':
             case '\r':
             case '\t': break;
