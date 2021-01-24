@@ -1,8 +1,12 @@
 # Calculator
  An expression based calculator that intakes an expression and outputs the result
+ For now it can:
+- Evaluate expressions with all the common arithmetic operators
+- Include support for various functions like trig functions and logarithms 
+- You can assign values to variables
  
 ## Things I want to add
- - Evaluate expressions with all the common arithmetic operators ✔
- - Include support for various functions like trig functions and logarithms ✔
- - Possibly add support for variables and custom functions(honestly at this point I might as well make a scripting language)
+
+ - Possibly add support for custom functions
  - Complex numbers
+ - Equation solver

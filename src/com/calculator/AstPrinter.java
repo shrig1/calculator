@@ -5,6 +5,10 @@ class AstPrinter implements Expression.Visitor<String> {
         return expr.accept(this);
     }
 
+    public String visitAssignNode(Expression.Assign expr) {
+        return stringify(expr.getName(), expr.getExpression());
+    }
+
     @Override
     public String visitBinaryNode(Expression.Binary expr) {
         return stringify(expr.getOperator().getLexme().toString(), expr.getLeft(), expr.getRight());

@@ -4,11 +4,27 @@ import java.util.ArrayList;
 
 public abstract class Expression {
     interface Visitor<T> {
+        T visitAssignNode(Assign expr);
         T visitBinaryNode(Binary expr);
         T visitGroupingNode(Grouping expr);
         T visitUnaryNode(Unary expr);
         T visitFunctionNode(Function expr);
         T visitLiteralNode(Literal expr);
+    }
+    static class Assign extends Expression{
+        private final String name;
+        private final Expression expression;
+
+        public Assign(String name, Expression expression){
+            this.name = name;
+            this.expression = expression;
+        }
+
+        public String getName() { return name; }
+        public Expression getExpression() { return expression; }
+
+        @Override
+        <T> T accept(Visitor<T> visitor) { return visitor.visitAssignNode(this); }
     }
     static class Binary extends Expression {
         private final Expression left;

@@ -13,7 +13,7 @@ public class MathOps {
 
     public static Map<TokenType, Function<Double, Double>> singleParamFunctions = new HashMap<>();
     public static Map<TokenType, Function<ArrayList<Double>, Double>> multiParamFunctions = new HashMap<>();
-    public static double PHI = 1.618033988749894;
+    public static final double PHI = 1.618033988749894;
 
     static {
         singleParamFunctions.put(SQRT, Math::sqrt);

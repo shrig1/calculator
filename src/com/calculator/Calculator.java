@@ -12,6 +12,10 @@ public class Calculator {
 
     private static void runREPL() throws IOException {
         BufferedReader reader = new BufferedReader( new InputStreamReader(System.in));
+        Environment env = new Environment();
+        Lexer lexer;
+        Parser parser;
+        Evaluator solver;
         while(true) {
             System.out.print("> ");
             String line = reader.readLine();
@@ -21,16 +25,16 @@ public class Calculator {
 
             try{
 //                System.out.println(line);
-                Lexer lexer = new Lexer(line);
+                lexer = new Lexer(line);
                 ArrayList<Token> tokens = lexer.scanTokens();
 
 //                System.out.println(tokens);
-                Parser parser = new Parser(tokens);
+                parser = new Parser(tokens, env);
                 Expression expression = parser.parse();
 //                System.out.println(new AstPrinter().print(expression));
-                Evaluator solver = new Evaluator();
+                solver = new Evaluator(env);
                 solver.solve(expression);
-            } catch (Error e) {
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
 

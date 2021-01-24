@@ -16,6 +16,7 @@ public class Lexer {
     public Lexer(String line) {
         this.line = line;
         functions = new HashMap<>();
+        functions.put("ans", ANS);
         functions.put("sqrt", SQRT);
         functions.put("root", ROOT);
         functions.put("log", LOG);
@@ -83,11 +84,7 @@ public class Lexer {
 //                    addToken(BANG_EQUAL);
 //                }
 //                break;
-//            case '=':
-//                if(matchNext('=')) {
-//                    addToken(EQUAL_EQUAL);
-//                }
-//                break;
+            case '=': addToken(EQUAL); break;
 //            case '<': addToken(matchNext('=') ? LESS_EQUAL : LESS); break;
 //            case '>': addToken(matchNext('=') ? GREATER_EQUAL : GREATER); break;
             case ',': addToken(COMMA); break;
@@ -165,8 +162,13 @@ public class Lexer {
 
         String text = line.substring(start, current);
         TokenType type = functions.get(text);
-        if(type == null) throw new Error(String.format("Invalid text '%s' smh", text));
-        addToken(type);
+//        if(type == null) throw new Error(String.format("Invalid text '%s' smh", text));
+        if(type == null) {
+            addToken(VARIABLE, text);
+        } else {
+            addToken(type);
+        }
+
     }
 
 

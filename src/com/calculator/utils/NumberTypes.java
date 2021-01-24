@@ -18,4 +18,18 @@ public class NumberTypes {
             return denomenator;
         }
     }
+
+    static class ComplexNumber {
+        private final double real;
+        private final double imaginary;
+
+        ComplexNumber(double real, double imaginary) {
+            this.real = real;
+            this.imaginary = imaginary;
+        }
+
+        public double getReal() { return real; }
+
+        public double getImaginary() { return imaginary; }
+    }
 }

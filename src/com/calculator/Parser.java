@@ -20,14 +20,15 @@ import static com.calculator.TokenType.*;
 public class Parser {
     private final ArrayList<Token> tokens;
     private int current = 0;
-    private String error = "";
+    private Environment env;
 
-    public Parser(ArrayList<Token> tokens) {
+    public Parser(ArrayList<Token> tokens, Environment env) {
         this.tokens = tokens;
+        this.env = env;
     }
 
     public Expression parse() {
-        return expression();
+        return assignment();
     }
 
     // going from smallest layer to highest layer
@@ -36,20 +37,20 @@ public class Parser {
      * literal :>  NUMBER | '(' expression ')' ;
      */
     private Expression literal() {
-        String error = "";
         if(match(NUMBER)) return new Expression.Literal(previous().getLexme());
+        if(match(VARIABLE)){
+            return new Expression.Literal(env.variables.get(String.valueOf(previous().getLexme())));
+        }
         if(match(PI)) return new Expression.Literal(Math.PI);
         if(match(E)) return new Expression.Literal(Math.E);
         if(match(PHI)) return new Expression.Literal(MathOps.PHI);
+        if(match(ANS)) return new Expression.Literal(env.getPreviousResult());
         if(match(LEFT_PAREN)) {
             try {
                 Expression expr = expression();
                 consume(RIGHT_PAREN);
                 return new Expression.Grouping(expr, "grouping");
-            } catch(RuntimeException e) {
-                this.error = "Incorrect use of parenthesis";
-//                System.err.println("Incorrect use of parenthesis");
-                throw new Error(String.format("Not a valid expression {%s} :(", this.error));
+            } catch(RuntimeException ignored) {
             }
         }
         if(match(ABS_BRACK)) {
@@ -57,18 +58,10 @@ public class Parser {
             try {
                 consume(ABS_BRACK);
                 return new Expression.Grouping(expr, "abs");
-            } catch(RuntimeException e) {
-//                System.err.println("Incorrect use of absolute value");
-                this.error = "Incorrect use of absolute value";
-                throw new Error(String.format("Not a valid expression {%s} :(", this.error));
+            } catch(RuntimeException ignored) {
             }
         }
-        if(match(RIGHT_PAREN)) {
-            this.error = "Incorrect use of parenthesis";
-            throw new Error(String.format("Not a valid expression {%s} :(", this.error));
-        }
-
-        throw new Error(String.format("Not a valid expression {%s} :(", this.error));
+        throw new Error("Not a valid expression :(");
     }
 
     /*
@@ -177,6 +170,21 @@ public class Parser {
         return addsub();
     }
 
+    private Expression assignment() {
+        if(match(VARIABLE)){
+            Token var_name = previous();
+            if(match(EQUAL)){
+                Expression expr = expression();
+                return new Expression.Assign(String.valueOf(var_name.getLexme()), expr);
+            }
+            else {
+                stepBack(1);
+            }
+
+        }
+        return expression();
+    }
+
 
     private boolean match(TokenType... types) {
         for (TokenType type : types) {
@@ -229,4 +237,5 @@ public class Parser {
     private Token previous() {
         return tokens.get(current - 1);
     }
+    private void stepBack(int steps) { current -= steps; }
 }

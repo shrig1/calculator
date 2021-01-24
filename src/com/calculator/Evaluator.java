@@ -8,10 +8,21 @@ import java.util.function.Function;
 import static com.calculator.utils.CheckForCalculationErrors.*;
 
 public class Evaluator implements Expression.Visitor<Double> {
+    private Environment env;
+
+    public Evaluator(Environment env) {
+        this.env = env;
+    }
 
     public void solve(Expression expr) {
         try{
-            System.out.println(evaluate(expr));
+            double result = evaluate(expr);
+            if(String.valueOf(result).endsWith(".0")) {
+                System.out.println((int) result);
+            } else {
+                System.out.println(result);
+            }
+            env.setPreviousResult(result);
         } catch(Error e) {
             System.out.println(e.getMessage());
         }
@@ -29,7 +40,7 @@ public class Evaluator implements Expression.Visitor<Double> {
         if(expr.getState()) {
             double arg = evaluate(expr.getArgument());
             Function<Double, Double> result = MathOps.singleParamFunctions.get(expr.getFunction().getType());
-            if(result == null) throw new Error("Failure in a Function Node, probably because you used a function that isn't implemented yet");
+            if(result == null) throw new Error("You used a function that isn't implemented yet");
             return result.apply(arg);
         }
         else {
@@ -39,7 +50,7 @@ public class Evaluator implements Expression.Visitor<Double> {
             }
 
             Function<ArrayList<Double>, Double> result = MathOps.multiParamFunctions.get(expr.getFunction().getType());
-            if(result == null) throw new Error("Failure in a Function Node, probably because you used a function that isn't implemented yet");
+            if(result == null) throw new Error("You used a function that isn't implemented yet");
             return result.apply(args);
         }
     }
@@ -94,5 +105,11 @@ public class Evaluator implements Expression.Visitor<Double> {
         }
         // Unreachable.
         throw new Error("Failure in a Binary Node");
+    }
+
+    @Override
+    public Double visitAssignNode(Expression.Assign expr) {
+        env.variables.put(expr.getName(), evaluate(expr.getExpression()));
+        return 0.0;
     }
 }
