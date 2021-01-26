@@ -10,3 +10,8 @@
  - Possibly add support for custom functions
  - Complex numbers
  - Equation solver
+
+
+# Testimonials 
+ - "'it's cute' - EntireTwix, 2021" - Jolly, 2021
+ 
