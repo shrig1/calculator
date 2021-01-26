@@ -9,23 +9,28 @@ import static com.calculator.utils.CheckForCalculationErrors.*;
 
 public class Evaluator implements Expression.Visitor<Double> {
     private Environment env;
+    private boolean print;
 
     public Evaluator(Environment env) {
         this.env = env;
+        print = true;
     }
 
     public void solve(Expression expr) {
-        try{
-            double result = evaluate(expr);
-            if(String.valueOf(result).endsWith(".0")) {
-                System.out.println((int) result);
-            } else {
-                System.out.println(result);
+        print = true;
+            try{
+                double result = evaluate(expr);
+                if(print) {
+                    if (String.valueOf(result).endsWith(".0")) {
+                        System.out.println((int) result);
+                    } else {
+                        System.out.println(result);
+                    }
+                    env.setPreviousResult(result);
+                }
+            } catch(Error e) {
+                System.out.println(e.getMessage());
             }
-            env.setPreviousResult(result);
-        } catch(Error e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     public double evaluate(Expression expr) {
@@ -109,6 +114,7 @@ public class Evaluator implements Expression.Visitor<Double> {
     @Override
     public Double visitAssignNode(Expression.Assign expr) {
         env.variables.put(expr.getName(), evaluate(expr.getExpression()));
+        print = false;
         return 0.0;
     }
 }
