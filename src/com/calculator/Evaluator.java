@@ -87,14 +87,13 @@ public class Evaluator implements Expression.Visitor<Double> {
     public Double visitBinaryNode(Expression.Binary expr) {
         double left = evaluate(expr.getLeft());
         double right = evaluate(expr.getRight());
-
+        checkArithmeticErrors(expr.getOperator(), left, right);
         switch (expr.getOperator().getType()) {
             case MINUS:
                 return left - right;
             case PLUS:
                 return left + right;
             case SLASH:
-                checkArithmeticErrors(expr.getOperator(), left, right);
                 return left / right;
             case STAR:
                 return left * right;
