@@ -14,4 +14,5 @@
 
 # Testimonials 
  - "'it's cute' - EntireTwix, 2021" - Jolly, 2021
+ - "it good at calculate i use for complex maths equate it boost iq by 20%" - calyeet 2021
  
