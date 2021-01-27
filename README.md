@@ -13,6 +13,7 @@
 
 
 # Testimonials 
- - "'it's cute' - EntireTwix, 2021" - Jolly, 2021
+ - "'it's cute' - EntireTwix 2021" - Jolly 2021
  - "it good at calculate i use for complex maths equate it boost iq by 20%" - calyeet 2021
+ - "calculator is very extreme gaming, algorithm mathematics integration calculus" - FCCloud 2021 (doesn't do calculus)
  
