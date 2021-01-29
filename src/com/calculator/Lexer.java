@@ -50,6 +50,11 @@ public class Lexer {
         functions.put("exs", EXS);
         functions.put("exc", EXC);
         functions.put("crd", CRD);
+        functions.put("normalpdf", NORMALPDF);
+        functions.put("binomialpdf", BINOMIALPDF);
+        functions.put("binomialcdf", BINOMIALCDF);
+
+        functions.put("import", IMPORT);
         functions.put("pi", PI);
         functions.put("phi", PHI);
         functions.put("e", E);
@@ -95,7 +100,9 @@ public class Lexer {
                 if (isDigit(c)) {
                     number();
                 } else if(isLetter(c)) {
-                    functions();
+                    name();
+                } else if(c == '"') {
+                    arg();
                 } else {
                     System.err.printf("Error, char %s is not allowed >:(%n", c);
                 }
@@ -143,6 +150,8 @@ public class Lexer {
 
     private boolean isLetter(char c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_'; }
 
+    private boolean isAlphaNumeric(char c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';}
+
     private void number() {
         while (isDigit(peek(0))) advance();
 
@@ -157,8 +166,8 @@ public class Lexer {
         addToken(NUMBER, Double.parseDouble(line.substring(start, current)));
     }
 
-    private void functions() {
-        while(isLetter(peek(0))) advance();
+    private void name() {
+        while(isAlphaNumeric(peek(0))) advance();
 
         String text = line.substring(start, current);
         TokenType type = functions.get(text);
@@ -169,6 +178,14 @@ public class Lexer {
             addToken(type);
         }
 
+    }
+
+    private void arg() {
+        while((peek(0) != '"')) advance();
+        advance();
+
+        String arg = line.substring(start + 1, current - 1);
+        addToken(ARG, arg);
     }
 
 

@@ -38,6 +38,12 @@ public class Evaluator implements Expression.Visitor<Double> {
     }
 
     @Override
+    public Double visitNullNode(Expression.Null expr) {
+        print = false;
+        return 0.0;
+    }
+
+    @Override
     public Double visitLiteralNode(Expression.Literal expr) { return Double.parseDouble(expr.getValue()); }
 
     @Override

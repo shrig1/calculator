@@ -27,6 +27,9 @@ class AstPrinter implements Expression.Visitor<String> {
     }
 
     @Override
+    public String visitNullNode(Expression.Null expr) { return ""; }
+
+    @Override
     public String visitLiteralNode(Expression.Literal expr) {
         return expr.value.toString();
     }

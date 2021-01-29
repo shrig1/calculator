@@ -51,6 +51,10 @@ public class MathOps {
         //These functions only take in the parameters it wants and if you give it more than it takes in it will ignore the extras
         multiParamFunctions.put(ROOT, (args) -> Math.pow(args.get(1), 1 / args.get(0)));
         multiParamFunctions.put(LOG, (args) -> Math.log10(args.get(1)) / Math.log10(args.get(0)));
+        multiParamFunctions.put(BINOMIALPDF, (args) -> binomialpdf(args.get(0), args.get(1), args.get(2)));
+        multiParamFunctions.put(BINOMIALCDF, (args) -> binomialcdf(args.get(0), args.get(1), args.get(2)));
+
+//        multiParamFunctions.put(NORMALPDF, (args) -> normalpdf(args.get(0), args.get(1), args.get(2)));
     }
 
     /*
@@ -70,6 +74,24 @@ public class MathOps {
             return Math.sqrt(2 * Math.PI * num) * Math.pow(num / Math.E, num);
         }
     }
+
+    private static double binomialpdf(double trials, double x_value, double prob_of_success) {
+        double bin_coeff = factorial(String.valueOf(trials)) / (factorial(String.valueOf(x_value)) * factorial(String.valueOf(trials - x_value)));
+        return bin_coeff * Math.pow(prob_of_success, x_value) * Math.pow((1 - prob_of_success), (trials - x_value));
+    }
+
+    private static double binomialcdf(double trials, double x_value, double prob_of_success) {
+        double prob = 0;
+        for(int i = (int) x_value; i >= 0; i--) {
+            prob += binomialpdf(trials, i, prob_of_success);
+        }
+        return prob;
+    }
+
+//    private static double normalpdf(double value, double mean, double std) {
+//        double z_score =  (value - mean) / std;
+//        return
+//    }
 
 //    public static double root(double root, double value) {
 //        return Math.pow(value, 1 / root);

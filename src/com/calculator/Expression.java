@@ -10,6 +10,7 @@ public abstract class Expression {
         T visitUnaryNode(Unary expr);
         T visitFunctionNode(Function expr);
         T visitLiteralNode(Literal expr);
+        T visitNullNode(Null expr);
     }
     static class Assign extends Expression{
         private final String name;
@@ -128,6 +129,13 @@ public abstract class Expression {
         <T> T accept(Visitor<T> visitor) {
             return visitor.visitLiteralNode(this);
         }
+    }
+
+    static class Null extends Expression {
+
+        public Null() {}
+
+        <T> T accept(Visitor<T> visitor) { return visitor.visitNullNode(this);}
     }
 
     abstract <T> T accept(Visitor<T> visitor);

@@ -3,6 +3,7 @@ package com.calculator;
 import com.calculator.utils.Error;
 import com.calculator.utils.MathOps;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class Parser {
         this.env = env;
     }
 
-    public Expression parse() {
+    public Expression parse() throws IOException {
         return assignment();
     }
 
@@ -36,7 +37,7 @@ public class Parser {
     /**
      * literal :>  NUMBER | '(' expression ')' ;
      */
-    private Expression literal() {
+    private Expression literal() throws IOException {
         if(match(NUMBER)) return new Expression.Literal(previous().getLexme());
         if(match(VARIABLE)){
             return new Expression.Literal(env.variables.get(String.valueOf(previous().getLexme())));
@@ -50,7 +51,7 @@ public class Parser {
                 Expression expr = expression();
                 consume(RIGHT_PAREN);
                 return new Expression.Grouping(expr, "grouping");
-            } catch(RuntimeException ignored) {
+            } catch(RuntimeException | IOException ignored) {
             }
         }
         if(match(ABS_BRACK)) {
@@ -61,6 +62,20 @@ public class Parser {
             } catch(RuntimeException ignored) {
             }
         }
+        if(match(IMPORT)) {
+            consume(LEFT_PAREN);
+            String path = String.valueOf(advance().getLexme());
+
+            if (match(COMMA)) {
+                boolean override = Boolean.parseBoolean(String.valueOf(advance().getLexme()));
+                consume(RIGHT_PAREN);
+                env.importVariablesFromFile(path, override);
+            } else {
+                consume(RIGHT_PAREN);
+                env.importVariablesFromFile(path, false);
+            }
+            return new Expression.Null();
+        }
         throw new Error("Not a valid expression :(");
     }
 
@@ -68,10 +83,10 @@ public class Parser {
     * function :> func_name '(' expression ')' | literal ;
     * func_name is all the functions valid, I can't be bothered to write all of them down
     */
-    private Expression function() {
+    private Expression function() throws IOException {
         ArrayList<TokenType> spFuncs = new ArrayList<>(List.of(SQRT, LN, SIN, SINH, COS, COSH, TAN, TANH, CSC, CSCH, SEC, SECH, COT, COTH, ARCSIN, ARCSINH, ARCCOS, ARCCOSH, ARCTAN, ARCTANH,
                 ARCCSC, ARCCSCH, ARCSEC, ARCSECH, ARCCOT, ARCCOTH, VER, VCS, CVS, CVC, SEM, HVC, HCV, HCC, EXS, EXC, CRD));
-        ArrayList<TokenType> mpFuncs = new ArrayList<>(List.of(ROOT, LOG));
+        ArrayList<TokenType> mpFuncs = new ArrayList<>(List.of(ROOT, LOG, NORMALPDF, BINOMIALPDF, BINOMIALCDF));
         if(match(spFuncs)) {
             Token function = previous();
             consume(LEFT_PAREN);
@@ -97,7 +112,7 @@ public class Parser {
     /*
     * factorial :>  function '!' | function ;
     */
-    private Expression factorial() {
+    private Expression factorial() throws IOException {
         Expression left = function();
         if(match(FACTORIAL)) {
             Token fac = previous();
@@ -110,7 +125,7 @@ public class Parser {
     /**
      * negate :>  '-' negate | factorial ;
      */
-    private Expression negate() {
+    private Expression negate() throws IOException {
         if(match(MINUS)) {
             Token minus = previous();
             Expression right = factorial();
@@ -123,7 +138,7 @@ public class Parser {
     /**
      * power :>  negate [ ( '^' ) negate ] ;
      */
-    private Expression power() {
+    private Expression power() throws IOException {
         Expression expr = negate();
 
         while(match(EXP)) {
@@ -138,7 +153,7 @@ public class Parser {
     /**
      * multidivimod :>  power [ ( '*' | '/' | '%' ) power ] ;
      */
-    private Expression multidivimod() {
+    private Expression multidivimod() throws IOException {
         Expression expr = power();
 
         while(match(STAR, SLASH, MODULO)) {
@@ -152,7 +167,7 @@ public class Parser {
     /**
      * addsub :>  multidivimod [ ( '+' | '-' ) multidivimod ] ;
      */
-    private Expression addsub() {
+    private Expression addsub() throws IOException {
         Expression expr = multidivimod();
 
         while(match(PLUS, MINUS)) {
@@ -166,11 +181,11 @@ public class Parser {
     /**
      * expression :>  addsub ;
      */
-    private Expression expression() {
+    private Expression expression() throws IOException {
         return addsub();
     }
 
-    private Expression assignment() {
+    private Expression assignment() throws IOException {
         if(match(VARIABLE)){
             Token var_name = previous();
             if(match(EQUAL)){
@@ -208,8 +223,11 @@ public class Parser {
         return false;
     }
 
-    private Token consume(TokenType type) {
-        if (checkType(type)) return advance();
+    private void consume(TokenType type) {
+        if (checkType(type)) {
+            advance();
+            return;
+        }
 
 
 //        System.err.println(message);
