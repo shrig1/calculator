@@ -30,5 +30,6 @@
  - "calculator is very extreme gaming, algorithm mathematics integration calculus" - FCCloud 2021 (calculator doesn't do calculus)
  - "It's cool, it's making me smarter despite not using it!" - FearlessDoggo 2021
  - "Calculator's pretty bingus" - Marwick 2021
+ - "i used this calc to hack my schools pc i am master hacker !)!)!)!)!" - Fark 2021
  
  
