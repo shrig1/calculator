@@ -31,5 +31,6 @@
  - "It's cool, it's making me smarter despite not using it!" - FearlessDoggo 2021
  - "Calculator's pretty bingus" - Marwick 2021
  - "i used this calc to hack my schools pc i am master hacker !)!)!)!)!" - Fark 2021
+ - "finally I can of maths, I rate this a 5 sta" - cautiouspotato 2021
  
  
