@@ -5,7 +5,6 @@ import static com.calculator.TokenType.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -13,6 +12,7 @@ public class MathOps {
 
     public static Map<TokenType, Function<Double, Double>> singleParamFunctions = new HashMap<>();
     public static Map<TokenType, Function<ArrayList<Double>, Double>> multiParamFunctions = new HashMap<>();
+    private final static double RECTANGLES = 100000000;
     public static final double PHI = 1.618033988749894;
 
     static {
@@ -53,8 +53,8 @@ public class MathOps {
         multiParamFunctions.put(LOG, (args) -> Math.log10(args.get(1)) / Math.log10(args.get(0)));
         multiParamFunctions.put(BINOMIALPDF, (args) -> binomialpdf(args.get(0), args.get(1), args.get(2)));
         multiParamFunctions.put(BINOMIALCDF, (args) -> binomialcdf(args.get(0), args.get(1), args.get(2)));
-
-//        multiParamFunctions.put(NORMALPDF, (args) -> normalpdf(args.get(0), args.get(1), args.get(2)));
+        multiParamFunctions.put(NORMALPDF, (args) -> normalpdf(args.get(0), args.get(1), args.get(2)));
+        multiParamFunctions.put(NORMALCDF, (args) -> normalcdf(args.get(0), args.get(1), args.get(2), args.get(3)));
     }
 
     /*
@@ -88,15 +88,25 @@ public class MathOps {
         return prob;
     }
 
-//    private static double normalpdf(double value, double mean, double std) {
-//        double z_score =  (value - mean) / std;
-//        return
-//    }
+    public static double getHeightAtZ(double mean, double std, double x_value) {
+        return Math.exp((-1.0 / 2.0) * Math.pow( (x_value - mean) / std, 2.0)) / (std * Math.sqrt(2 * Math.PI));
+    }
 
-//    public static double root(double root, double value) {
-//        return Math.pow(value, 1 / root);
-//    }
-//    public static double log(double base, double value) {
-//
-//    }
+    public static double normalpdf(double mean, double std, double x_value) {
+        double area = 0;
+        double width = (x_value - 6) / RECTANGLES;
+        for(int i = 0; i < RECTANGLES; i++) {
+            area += width * getHeightAtZ(mean, std, width * i + x_value);
+        }
+        return Math.abs(area);
+    }
+
+    public static double normalcdf(double mean, double std, double l_bound, double u_bound) {
+        double area = 0;
+        double width = (u_bound - l_bound) / RECTANGLES;
+        for(int i = 0; i < RECTANGLES; i++) {
+            area += width * getHeightAtZ(mean, std, width * i + l_bound);
+        }
+        return Math.abs(area);
+    }
 }

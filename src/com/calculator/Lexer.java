@@ -21,6 +21,7 @@ public class Lexer {
         functions.put("root", ROOT);
         functions.put("log", LOG);
         functions.put("ln", LN);
+        functions.put("sigma", SIGMA);
         functions.put("sin", SIN);
         functions.put("sinh", SINH);
         functions.put("cos", COS);
@@ -51,6 +52,7 @@ public class Lexer {
         functions.put("exc", EXC);
         functions.put("crd", CRD);
         functions.put("normalpdf", NORMALPDF);
+        functions.put("normalcdf", NORMALCDF);
         functions.put("binomialpdf", BINOMIALPDF);
         functions.put("binomialcdf", BINOMIALCDF);
 

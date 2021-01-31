@@ -84,9 +84,9 @@ public class Parser {
     * func_name is all the functions valid, I can't be bothered to write all of them down
     */
     private Expression function() throws IOException {
-        ArrayList<TokenType> spFuncs = new ArrayList<>(List.of(SQRT, LN, SIN, SINH, COS, COSH, TAN, TANH, CSC, CSCH, SEC, SECH, COT, COTH, ARCSIN, ARCSINH, ARCCOS, ARCCOSH, ARCTAN, ARCTANH,
+        ArrayList<TokenType> spFuncs = new ArrayList<>(List.of(SQRT, LN, SIGMA, SIN, SINH, COS, COSH, TAN, TANH, CSC, CSCH, SEC, SECH, COT, COTH, ARCSIN, ARCSINH, ARCCOS, ARCCOSH, ARCTAN, ARCTANH,
                 ARCCSC, ARCCSCH, ARCSEC, ARCSECH, ARCCOT, ARCCOTH, VER, VCS, CVS, CVC, SEM, HVC, HCV, HCC, EXS, EXC, CRD));
-        ArrayList<TokenType> mpFuncs = new ArrayList<>(List.of(ROOT, LOG, NORMALPDF, BINOMIALPDF, BINOMIALCDF));
+        ArrayList<TokenType> mpFuncs = new ArrayList<>(List.of(ROOT, LOG, NORMALPDF, NORMALCDF, BINOMIALPDF, BINOMIALCDF));
         if(match(spFuncs)) {
             Token function = previous();
             consume(LEFT_PAREN);
