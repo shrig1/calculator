@@ -1,4 +1,4 @@
-package com.calculator;
+package com.calculator.cl;
 
 public enum TokenType {
     // Groupings
@@ -18,10 +18,10 @@ public enum TokenType {
     EOL, COMMA, VARIABLE, ARG,
 
     //Functions
-    SQRT, ROOT, LOG, LN, SIGMA,
+    SQRT, ROOT, LOG, LN,
     SIN, SINH, COS, COSH, TAN, TANH, CSC, CSCH, SEC, SECH, COT, COTH, ARCSIN, ARCSINH, ARCCOS, ARCCOSH, ARCTAN, ARCTANH, ARCCSC, ARCCSCH, ARCSEC, ARCSECH, ARCCOT, ARCCOTH,
     VER, VCS, CVS, CVC, SEM, HVC, HCV, HCC, EXS, EXC, CRD,
-    NORMALPDF, NORMALCDF, BINOMIALPDF, BINOMIALCDF,
+    NORMALPDF, NORMALCDF, BINOMIALPDF, BINOMIALCDF, INVNORM,
 
     IMPORT
 }

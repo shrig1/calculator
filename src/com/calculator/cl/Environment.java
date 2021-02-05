@@ -1,12 +1,8 @@
-package com.calculator;
+package com.calculator.cl;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import static com.calculator.TokenType.*;
 
 public class Environment {
     public Map<String, Double> variables = new HashMap<>();

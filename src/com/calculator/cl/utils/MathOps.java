@@ -1,7 +1,7 @@
-package com.calculator.utils;
+package com.calculator.cl.utils;
 
-import com.calculator.TokenType;
-import static com.calculator.TokenType.*;
+import com.calculator.cl.TokenType;
+import static com.calculator.cl.TokenType.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +55,7 @@ public class MathOps {
         multiParamFunctions.put(BINOMIALCDF, (args) -> binomialcdf(args.get(0), args.get(1), args.get(2)));
         multiParamFunctions.put(NORMALPDF, (args) -> normalpdf(args.get(0), args.get(1), args.get(2)));
         multiParamFunctions.put(NORMALCDF, (args) -> normalcdf(args.get(0), args.get(1), args.get(2), args.get(3)));
+        multiParamFunctions.put(INVNORM, (args) -> inverseNorm(args.get(0), args.get(1), args.get(2)));
     }
 
     /*
@@ -88,8 +89,8 @@ public class MathOps {
         return prob;
     }
 
-    public static double getHeightAtZ(double mean, double std, double x_value) {
-        return Math.exp((-1.0 / 2.0) * Math.pow( (x_value - mean) / std, 2.0)) / (std * Math.sqrt(2 * Math.PI));
+    public static double getHeightAtZ(double mean, double std, double z_value) {
+        return Math.exp((-1.0 / 2.0) * Math.pow( (z_value - mean) / std, 2) ) / (std * Math.sqrt(2 * Math.PI));
     }
 
     public static double normalpdf(double mean, double std, double x_value) {
@@ -109,4 +110,19 @@ public class MathOps {
         }
         return Math.abs(area);
     }
+
+    public static double inverseNorm(double mean, double std, double prob) {
+        double[] a = {2.50662823884, -18.61500062529, 41.39119773534, -25.44106049637};
+        double[] b = {-8.47351093090, 23.08336743743, -21.06224101826, 3.13082909833};
+
+        double y = prob - 0.5;
+        double r = y * y;
+        double z_score = y * (((a[3] * r + a[2]) * r + a[1]) * r + a[0]) / ((((b[3] * r + b[2]) * r + b[1]) * r + b[0]) * r + 1);
+        return z_score * std + mean;
+    }
+
+
+    //    public static double getZAtHeight(double mean, double std, double height) {
+//        return Math.sqrt(-2.0 * Math.log(height * (std * Math.sqrt(2.0 * Math.PI)))) * std + mean;
+//    }
 }

@@ -1,10 +1,10 @@
-package com.calculator;
+package com.calculator.cl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.calculator.TokenType.*;
+import static com.calculator.cl.TokenType.*;
 
 public class Lexer {
     private final String line;
@@ -21,7 +21,6 @@ public class Lexer {
         functions.put("root", ROOT);
         functions.put("log", LOG);
         functions.put("ln", LN);
-        functions.put("sigma", SIGMA);
         functions.put("sin", SIN);
         functions.put("sinh", SINH);
         functions.put("cos", COS);
@@ -55,6 +54,7 @@ public class Lexer {
         functions.put("normalcdf", NORMALCDF);
         functions.put("binomialpdf", BINOMIALPDF);
         functions.put("binomialcdf", BINOMIALCDF);
+        functions.put("invnorm", INVNORM);
 
         functions.put("import", IMPORT);
         functions.put("pi", PI);
@@ -86,14 +86,7 @@ public class Lexer {
             case '^': addToken(EXP); break;
             case '%': addToken(MODULO); break;
             case '!': addToken(FACTORIAL); break;
-//            case '!':
-//                if(matchNext('=')) {
-//                    addToken(BANG_EQUAL);
-//                }
-//                break;
             case '=': addToken(EQUAL); break;
-//            case '<': addToken(matchNext('=') ? LESS_EQUAL : LESS); break;
-//            case '>': addToken(matchNext('=') ? GREATER_EQUAL : GREATER); break;
             case ',': addToken(COMMA); break;
             case ' ':
             case '\r':
