@@ -35,6 +35,10 @@ need regarding the calculator and it\'s uses.
   - Usage: `log(value, base)`
 - Logarithim(base _e_): returns the log of the value but with _e_ as the base
   - Usage: `ln(value)`
+- Sin: returns the sin of the value(radians)
+  - Usage: `sin(radians)`
+- Cos: returns the cosine of the value(radians)
+  - Usage: `cos(radians)`
 
 
 
