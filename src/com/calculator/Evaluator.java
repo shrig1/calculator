@@ -1,11 +1,11 @@
-package com.calculator.cl;
+package com.calculator;
 
-import com.calculator.cl.utils.MathOps;
+import com.calculator.utils.MathOps;
 
 import java.util.ArrayList;
 import java.util.function.Function;
 
-import static com.calculator.cl.utils.CheckForCalculationErrors.*;
+import static com.calculator.utils.CheckForCalculationErrors.*;
 
 public class Evaluator implements Expression.Visitor<Double> {
     private Environment env;

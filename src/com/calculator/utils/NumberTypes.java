@@ -1,4 +1,4 @@
-package com.calculator.cl.utils;
+package com.calculator.utils;
 
 public class NumberTypes {
     static class Fraction {

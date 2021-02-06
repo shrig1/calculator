@@ -1,6 +1,6 @@
-package com.calculator.cl.utils;
+package com.calculator.utils;
 
-import com.calculator.cl.Token;
+import com.calculator.Token;
 
 public class CheckForCalculationErrors {
     /* Pretty sure these two methods are not needed but I have them anyways in case I do wacky stuff

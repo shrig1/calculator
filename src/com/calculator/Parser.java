@@ -1,13 +1,13 @@
-package com.calculator.cl;
+package com.calculator;
 
-import com.calculator.cl.utils.Error;
-import com.calculator.cl.utils.MathOps;
+import com.calculator.utils.Error;
+import com.calculator.utils.MathOps;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.calculator.cl.TokenType.*;
+import static com.calculator.TokenType.*;
 
 /*
  * My wacky version of EBNF syntax

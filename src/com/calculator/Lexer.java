@@ -1,10 +1,10 @@
-package com.calculator.cl;
+package com.calculator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.calculator.cl.TokenType.*;
+import static com.calculator.TokenType.*;
 
 public class Lexer {
     private final String line;

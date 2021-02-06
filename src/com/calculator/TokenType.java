@@ -1,4 +1,4 @@
-package com.calculator.cl;
+package com.calculator;
 
 public enum TokenType {
     // Groupings

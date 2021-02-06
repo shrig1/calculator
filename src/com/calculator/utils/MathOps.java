@@ -1,7 +1,7 @@
-package com.calculator.cl.utils;
+package com.calculator.utils;
 
-import com.calculator.cl.TokenType;
-import static com.calculator.cl.TokenType.*;
+import com.calculator.TokenType;
+import static com.calculator.TokenType.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

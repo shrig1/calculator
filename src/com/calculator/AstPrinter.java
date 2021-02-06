@@ -1,4 +1,4 @@
-package com.calculator.cl;
+package com.calculator;
 
 class AstPrinter implements Expression.Visitor<String> {
     String print(Expression expr) {

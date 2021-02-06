@@ -1,4 +1,4 @@
-package com.calculator.cl;
+package com.calculator;
 
 
 import java.io.IOException;
