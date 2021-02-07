@@ -1,5 +1,5 @@
 # Calculator
- An expression based calculator that intakes an expression and outputs the result
+ An expression based calculator that intakes an expression and outputs the result.
  For now it can:
 - Evaluate expressions with all the common arithmetic operators
 - Include support for various functions like trig functions and logarithms 
@@ -10,6 +10,9 @@
  - Possibly add support for custom functions
  - Complex numbers
  - Equation solver
+ 
+# Docs
+ website: https://clubpenguin420.github.io/calculator/
  
 # Usage
  If you just want to run it off the bat, go to the most recent release and download the .jar. Then open cmd in the directory where the jar was downloaded and type:
