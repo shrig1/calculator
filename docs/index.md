@@ -39,6 +39,14 @@ need regarding the calculator and it\'s uses.
   - Usage: `sin(radians)`
 - Cos: returns the cosine of the value(radians)
   - Usage: `cos(radians)`
+- Tan: returns the tangent of the value(radians)
+  - Usage: `tan(radians)`
+- Arcsin: returns the inverse sin of the value(radians)
+  - Usage: `arcsin(radians)`
+- Arccos: returns the inverse cosine of the value(radians)
+  - Usage: `arccos(radians)`
+- Arctan: returns the inverse tangent of the value(radians)
+  - Usage: `arctan(radians)`
 
 
 
