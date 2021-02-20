@@ -35,5 +35,6 @@
  - "Calculator's pretty bingus" - Mason Jar 2021
  - "i used this calc to hack my schools pc i am master hacker !)!)!)!)!" - [Fark](https://github.com/Fark1) 2021
  - "finally I can of maths, I rate this a 5 sta" - [cautiouspotato](https://github.com/skittlemittle) 2021
+ - """it's cute" - EntireTwix, 2021" - Jolly, 2021" - [Omnoid](https://github.com/Oli-Ar) 2021
  
  
