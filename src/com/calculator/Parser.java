@@ -185,6 +185,9 @@ public class Parser {
         return addsub();
     }
 
+    /**
+     *assignment :> ( variable = expression ) | expression ;
+     */
     private Expression assignment() throws IOException {
         if(match(VARIABLE)){
             Token var_name = previous();

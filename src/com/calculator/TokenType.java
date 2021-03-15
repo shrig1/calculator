@@ -5,12 +5,8 @@ public enum TokenType {
     LEFT_PAREN, RIGHT_PAREN, ABS_BRACK,
     // Arithmetic Operators
     MINUS, PLUS, SLASH, STAR, MODULO, EXP, FACTORIAL,
-//       I might add equality and comparison functionality later, but for now I will omit them
-//    Equality BANG_EQUAL,
+
     EQUAL,
-//     Comparison operators
-//    GREATER, GREATER_EQUAL, LESS, LESS_EQUAL,
-//
     // Values
     NUMBER, PI, E, PHI, ANS,
 
