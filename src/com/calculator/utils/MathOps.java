@@ -56,6 +56,7 @@ public class MathOps {
         multiParamFunctions.put(NORMALPDF, (args) -> normalpdf(args.get(0), args.get(1), args.get(2)));
         multiParamFunctions.put(NORMALCDF, (args) -> normalcdf(args.get(0), args.get(1), args.get(2), args.get(3)));
         multiParamFunctions.put(INVNORM, (args) -> inverseNorm(args.get(0), args.get(1), args.get(2)));
+        multiParamFunctions.put(BASE, (args) -> base_conversion(args.get(0), args.get(1), args.get(2)));
     }
 
     /*
@@ -74,6 +75,12 @@ public class MathOps {
             double num = Double.parseDouble(n);
             return Math.sqrt(2 * Math.PI * num) * Math.pow(num / Math.E, num);
         }
+    }
+
+    public static double base_conversion(double og_num, double og_base, double new_base) {
+        int og_b10 = Integer.parseInt(String.valueOf((int)og_num), (int)og_base);
+        System.out.println(og_b10);
+        return Double.parseDouble(Integer.toString(og_b10, (int)new_base));
     }
 
     private static double binomialpdf(double trials, double x_value, double prob_of_success) {

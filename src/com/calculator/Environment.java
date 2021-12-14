@@ -33,6 +33,10 @@ public class Environment {
 
     }
 
+    public void removeVar(String var_name) {
+        variables.remove(var_name);
+    }
+
 
     public double getPreviousResult() {
         return previous_result;

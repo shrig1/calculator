@@ -5,6 +5,7 @@ import com.calculator.utils.MathOps;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.calculator.TokenType.*;
@@ -76,6 +77,13 @@ public class Parser {
             }
             return new Expression.Null();
         }
+        if(match(REMOVE)) {
+            consume(LEFT_PAREN);
+            String name = String.valueOf(advance().getLexme());
+            consume(RIGHT_PAREN);
+            env.removeVar(name);
+            return new Expression.Null();
+        }
         throw new Error("Not a valid expression :(");
     }
 
@@ -84,9 +92,9 @@ public class Parser {
     * func_name is all the functions valid, I can't be bothered to write all of them down
     */
     private Expression function() throws IOException {
-        ArrayList<TokenType> spFuncs = new ArrayList<>(List.of(SQRT, LN, SIN, SINH, COS, COSH, TAN, TANH, CSC, CSCH, SEC, SECH, COT, COTH, ARCSIN, ARCSINH, ARCCOS, ARCCOSH, ARCTAN, ARCTANH,
+        ArrayList<TokenType> spFuncs = new ArrayList<>(Arrays.asList(SQRT, LN, SIN, SINH, COS, COSH, TAN, TANH, CSC, CSCH, SEC, SECH, COT, COTH, ARCSIN, ARCSINH, ARCCOS, ARCCOSH, ARCTAN, ARCTANH,
                 ARCCSC, ARCCSCH, ARCSEC, ARCSECH, ARCCOT, ARCCOTH, VER, VCS, CVS, CVC, SEM, HVC, HCV, HCC, EXS, EXC, CRD));
-        ArrayList<TokenType> mpFuncs = new ArrayList<>(List.of(ROOT, LOG, NORMALPDF, NORMALCDF, BINOMIALPDF, BINOMIALCDF, INVNORM));
+        ArrayList<TokenType> mpFuncs = new ArrayList<>(Arrays.asList(ROOT, LOG, NORMALPDF, NORMALCDF, BINOMIALPDF, BINOMIALCDF, INVNORM, BASE, SORT, UNION, DIFF));
         if(match(spFuncs)) {
             Token function = previous();
             consume(LEFT_PAREN);
