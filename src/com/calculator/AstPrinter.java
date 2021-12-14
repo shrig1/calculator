@@ -57,8 +57,4 @@ class AstPrinter implements Expression.Visitor<String> {
 
         return builder.toString();
     }
-
-    public static void main(String[] args) {
-
-    }
 }

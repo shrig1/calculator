@@ -4,9 +4,7 @@ import com.calculator.utils.Error;
 import com.calculator.utils.MathOps;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static com.calculator.TokenType.*;
 
@@ -20,11 +18,11 @@ import static com.calculator.TokenType.*;
  * */
 
 public class Parser {
-    private final ArrayList<Token> tokens;
+    private final LinkedList<Token> tokens;
     private int current = 0;
     private Environment env;
 
-    public Parser(ArrayList<Token> tokens, Environment env) {
+    public Parser(LinkedList<Token> tokens, Environment env) {
         this.tokens = tokens;
         this.env = env;
     }
@@ -94,7 +92,7 @@ public class Parser {
     private Expression function() throws IOException {
         ArrayList<TokenType> spFuncs = new ArrayList<>(Arrays.asList(SQRT, LN, SIN, SINH, COS, COSH, TAN, TANH, CSC, CSCH, SEC, SECH, COT, COTH, ARCSIN, ARCSINH, ARCCOS, ARCCOSH, ARCTAN, ARCTANH,
                 ARCCSC, ARCCSCH, ARCSEC, ARCSECH, ARCCOT, ARCCOTH, VER, VCS, CVS, CVC, SEM, HVC, HCV, HCC, EXS, EXC, CRD));
-        ArrayList<TokenType> mpFuncs = new ArrayList<>(Arrays.asList(ROOT, LOG, NORMALPDF, NORMALCDF, BINOMIALPDF, BINOMIALCDF, INVNORM, BASE, SORT, UNION, DIFF));
+        ArrayList<TokenType> mpFuncs = new ArrayList<>(Arrays.asList(ROOT, LOG, NORMALPDF, NORMALCDF, BINOMIALPDF, BINOMIALCDF, INVNORM, SORT, BASE, UNION, DIFF));
         if(match(spFuncs)) {
             Token function = previous();
             consume(LEFT_PAREN);
@@ -113,6 +111,18 @@ public class Parser {
             consume(RIGHT_PAREN);
             return new Expression.Function(function, args);
         }
+//        else if(match(SORT)) {
+//            Token function = previous();
+//            consume(LEFT_PAREN);
+//            Stack<Expression> elements = new Stack<>();
+//            elements.push(expression());
+//            while(match(COMMA)) {
+//                elements.push(expression());
+//            }
+//            consume(RIGHT_PAREN);
+//            return new Expression.Function(function, elements);
+//        }
+
         return literal();
 
     }

@@ -3,6 +3,7 @@ package com.calculator;
 import com.calculator.utils.MathOps;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.function.Function;
 
 import static com.calculator.utils.CheckForCalculationErrors.*;
@@ -55,6 +56,9 @@ public class Evaluator implements Expression.Visitor<Double> {
             return result.apply(arg);
         }
         else {
+            if(expr.getFunction().toString().equals("sort")) {
+                print = false;
+            }
             ArrayList<Double> args = new ArrayList<>();
             for(Expression arg : expr.getArguments()){
                 args.add(evaluate(arg));
@@ -70,11 +74,14 @@ public class Evaluator implements Expression.Visitor<Double> {
     public Double visitUnaryNode(Expression.Unary expr) {
         double sideExpr = evaluate(expr.getSideExpr());
 
-        return switch (expr.getOperator().getType()) {
-            case MINUS -> -1.0 * sideExpr;
-            case FACTORIAL -> MathOps.factorial(String.valueOf(sideExpr));
-            default -> throw new Error("Failure in a Unary Node");
-        };
+        switch (expr.getOperator().getType()) {
+            case MINUS:
+                return -1.0 * sideExpr;
+            case FACTORIAL:
+                return MathOps.factorial(String.valueOf(sideExpr));
+            default:
+                throw new Error("Failure in a Unary Node");
+        }
 
 
     }

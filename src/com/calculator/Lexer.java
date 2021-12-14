@@ -2,13 +2,14 @@ package com.calculator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import static com.calculator.TokenType.*;
 
 public class Lexer {
     private final String line;
-    private final ArrayList<Token> tokens = new ArrayList<>();
+    private final LinkedList<Token> tokens = new LinkedList<>();
     private int start = 0;
     private int current = 0;
     private final Map<String, TokenType> functions;
@@ -67,7 +68,7 @@ public class Lexer {
         functions.put("e", E);
     }
 
-    public ArrayList<Token> scanTokens() {
+    public LinkedList<Token> scanTokens() {
         while (!isAtEnd()) {
             // We are at the beginning of the next lexeme.
             start = current;
